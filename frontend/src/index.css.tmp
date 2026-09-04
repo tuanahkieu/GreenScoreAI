@@ -1,0 +1,235 @@
+:root {
+  --font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  
+  /* Color Palette */
+  --color-primary: #10B981; /* Emerald 500 */
+  --color-primary-dark: #059669; /* Emerald 600 */
+  --color-primary-light: #D1FAE5; /* Emerald 100 */
+  
+  --color-bg-dark: #0F172A; /* Slate 900 */
+  --color-surface: #1E293B; /* Slate 800 */
+  --color-surface-hover: #334155; /* Slate 700 */
+  
+  --color-text-main: #F8FAFC; /* Slate 50 */
+  --color-text-muted: #94A3B8; /* Slate 400 */
+  
+  --color-success: #10B981; /* Emerald 500 */
+  --color-info: #3B82F6; /* Blue 500 */
+  --color-warning: #F59E0B; /* Amber 500 */
+  --color-danger: #EF4444; /* Red 500 */
+
+  --border-radius-lg: 16px;
+  --border-radius-md: 12px;
+  --border-radius-sm: 8px;
+  
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-glow: 0 0 20px rgba(16, 185, 129, 0.2);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--color-bg-dark);
+  color: var(--color-text-main);
+  line-height: 1.5;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+/* Glassmorphism utility */
+.glass-panel {
+  background: rgba(30, 41, 59, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Button */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  border-radius: var(--border-radius-md);
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+  color: white;
+  box-shadow: 0 4px 14px 0 rgba(16, 185, 129, 0.39);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.23);
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--color-text-main);
+  border: 1px solid var(--color-surface-hover);
+}
+
+.btn-secondary:hover {
+  background: var(--color-surface-hover);
+}
+
+/* Form Styles */
+.form-group {
+  margin-bottom: 2rem;
+}
+
+.form-label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  color: var(--color-text-main);
+}
+
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.radio-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  border-radius: var(--border-radius-md);
+  border: 2px solid var(--color-surface-hover);
+  background-color: rgba(30, 41, 59, 0.4);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.radio-card:hover {
+  border-color: var(--color-primary-light);
+  background-color: rgba(30, 41, 59, 0.8);
+}
+
+.radio-card.selected {
+  border-color: var(--color-primary);
+  background-color: rgba(16, 185, 129, 0.05);
+  box-shadow: 0 0 0 1px var(--color-primary);
+}
+
+.radio-card input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+}
+
+.radio-card .indicator {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--color-text-muted);
+  margin-right: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.radio-card.selected .indicator {
+  border-color: var(--color-primary);
+}
+
+.radio-card.selected .indicator::after {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+}
+
+.radio-card .label-text {
+  font-size: 1rem;
+  color: var(--color-text-main);
+}
+
+.radio-card.selected .label-text {
+  font-weight: 500;
+  color: var(--color-primary-light);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+/* Progress bar */
+.progress-bg {
+  height: 8px;
+  background-color: var(--color-surface-hover);
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 1.5rem 0;
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: var(--color-primary);
+  transition: width 0.3s ease;
+}
+
+/* Header */
+.app-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.app-title {
+  font-size: 2.5rem;
+  background: linear-gradient(to right, #10B981, #3B82F6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.5rem;
+}
+
+.app-subtitle {
+  color: var(--color-text-muted);
+  font-size: 1.1rem;
+}
