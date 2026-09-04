@@ -4,10 +4,14 @@ import { Home, History, LogOut, LogIn, User } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import Modal from './Modal';
 
-const Sidebar = () => {
+const Sidebar = ({ isOpen, setIsOpen }) => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [modalConfig, setModalConfig] = useState({ isOpen: false });
+
+  const closeSidebar = () => {
+    if (setIsOpen) setIsOpen(false);
+  };
 
   const handleLogout = () => {
     setModalConfig({
@@ -27,7 +31,7 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="sidebar" style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+    <div className={`sidebar ${isOpen ? 'open' : ''}`} style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
       <div className="sidebar-title">GreenScore AI</div>
       
       <nav style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', flex: 1 }}>
@@ -37,6 +41,7 @@ const Sidebar = () => {
               to="/" 
               end
               className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+              onClick={closeSidebar}
             >
               <Home size={20} /> Trang chủ
             </NavLink>
@@ -44,6 +49,7 @@ const Sidebar = () => {
             <NavLink 
               to="/history" 
               className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+              onClick={closeSidebar}
             >
               <History size={20} /> Lịch sử
             </NavLink>
@@ -54,6 +60,7 @@ const Sidebar = () => {
           <NavLink 
             to="/admin" 
             className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+            onClick={closeSidebar}
           >
             <User size={20} /> Quản lý hệ thống
           </NavLink>
@@ -77,7 +84,7 @@ const Sidebar = () => {
           </div>
         ) : (
           <button 
-            onClick={() => navigate('/login')} 
+            onClick={() => { closeSidebar(); navigate('/login'); }} 
             className="nav-link" 
             style={{ width: '100%', background: 'transparent', border: 'none', cursor: 'pointer', textAlign: 'left', color: 'var(--color-primary)' }}
           >
