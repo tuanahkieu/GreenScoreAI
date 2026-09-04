@@ -159,11 +159,14 @@ body {
     top: 0;
     left: 0;
     height: 100vh;
+    height: 100dvh;
     z-index: 50;
     transform: translateX(-100%);
     transition: transform 0.3s ease;
     width: 280px;
     box-shadow: var(--shadow-lg);
+    padding-top: calc(2rem + env(safe-area-inset-top));
+    padding-bottom: calc(1rem + env(safe-area-inset-bottom));
   }
 
   .sidebar.open {
@@ -171,11 +174,15 @@ body {
   }
 
   .main-content {
-    padding-top: 4.5rem; /* Make room for the fixed menu button */
+    padding-top: calc(4.5rem + env(safe-area-inset-top)); /* Make room for the fixed menu button and notch */
     padding-left: 1rem;
     padding-right: 1rem;
-    padding-bottom: 3rem; /* Extra padding for mobile browser UI (Safari bottom bar) */
+    padding-bottom: calc(3rem + env(safe-area-inset-bottom)); /* Extra padding for mobile browser UI (Safari bottom bar) */
   }
+}
+
+.mobile-menu-btn {
+  top: calc(1rem + env(safe-area-inset-top));
 }
 
 
