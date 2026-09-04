@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
@@ -30,7 +30,13 @@ if os.path.exists(FRONTEND_DIST):
 
     @app.get("/{full_path:path}")
     async def serve_frontend(full_path: str):
-        return FileResponse(f"{FRONTEND_DIST}/index.html")
+        # Không cho catch-all bắt các route /api/
+        if full_path.startswith("api/") or full_path == "api":
+            raise HTTPException(status_code=404, detail="API endpoint not found")
+        index_path = f"{FRONTEND_DIST}/index.html"
+        if os.path.exists(index_path):
+            return FileResponse(index_path)
+        return {"message": "Frontend not built"}
 else:
     @app.get("/")
     def read_root():
