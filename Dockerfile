@@ -20,7 +20,8 @@ COPY . .
 # Copy file React đã build từ bước trên
 COPY --from=frontend-builder /app/frontend/dist ./frontend/dist
 
-# HuggingFace Spaces yêu cầu cổng 7860
-EXPOSE 7860
+# Render dùng biến môi trường $PORT (thường là 10000)
+# HuggingFace dùng 7860. Dùng $PORT để tương thích cả hai.
+EXPOSE 10000
 
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "7860"]
+CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port ${PORT:-10000}"]
