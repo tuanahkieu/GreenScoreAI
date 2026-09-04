@@ -1,11 +1,13 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
+from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.requests import Request
 from app.api import score, auth, history, admin, questionnaire
 import os
 
-app = FastAPI(title="Green Score AI Backend")
+app = FastAPI(title="Green Score AI Backend", redirect_slashes=True)
 
 # Cấu hình CORS
 app.add_middleware(
@@ -28,16 +30,19 @@ FRONTEND_DIST = "frontend/dist"
 if os.path.exists(FRONTEND_DIST):
     app.mount("/assets", StaticFiles(directory=f"{FRONTEND_DIST}/assets"), name="assets")
 
-    @app.get("/{full_path:path}")
-    async def serve_frontend(full_path: str):
-        # Không cho catch-all bắt các route /api/
-        if full_path.startswith("api/") or full_path == "api":
-            raise HTTPException(status_code=404, detail="API endpoint not found")
-        index_path = f"{FRONTEND_DIST}/index.html"
-        if os.path.exists(index_path):
-            return FileResponse(index_path)
-        return {"message": "Frontend not built"}
-else:
+    # Dùng middleware để serve SPA - không can thiệp vào API routes
+    class SPAMiddleware(BaseHTTPMiddleware):
+        async def dispatch(self, request: Request, call_next):
+            response = await call_next(request)
+            # Nếu là 404 và KHÔNG phải API route → serve index.html cho React Router
+            if response.status_code == 404 and not request.url.path.startswith("/api"):
+                index_path = f"{FRONTEND_DIST}/index.html"
+                if os.path.exists(index_path):
+                    return FileResponse(index_path)
+            return response
+
+    app.add_middleware(SPAMiddleware)
+
     @app.get("/")
-    def read_root():
-        return {"message": "Welcome to GreenScore AI API"}
+    async def serve_root():
+        return FileResponse(f"{FRONTEND_DIST}/index.html")
