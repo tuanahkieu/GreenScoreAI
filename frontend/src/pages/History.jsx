@@ -4,6 +4,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import Modal from '../components/Modal';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { API_BASE_URL } from '../config';
 
 const History = () => {
   const [history, setHistory] = useState([]);
@@ -25,7 +26,7 @@ const History = () => {
   const fetchHistory = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch('http://localhost:8000/api/history/', {
+      const response = await fetch(`${API_BASE_URL}/api/history/`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -61,7 +62,7 @@ const History = () => {
       cancelText: "Hủy bỏ",
       onConfirm: async () => {
         try {
-          await fetch('http://localhost:8000/api/history/', {
+          await fetch(`${API_BASE_URL}/api/history/`, {
             method: 'DELETE',
             headers: {
               'Authorization': `Bearer ${token}`
@@ -86,7 +87,7 @@ const History = () => {
       confirmText: "Xóa",
       onConfirm: async () => {
         try {
-          const response = await fetch(`http://localhost:8000/api/history/${id}`, {
+          const response = await fetch(`${API_BASE_URL}/api/history/${id}`, {
             method: 'DELETE',
             headers: {
               'Authorization': `Bearer ${token}`

@@ -5,6 +5,7 @@ import { ArrowRight, ArrowLeft, Calculator, ChevronRight, Loader2 } from 'lucide
 import { useNavigate } from 'react-router-dom';
 import Modal from '../components/Modal';
 import { useAuth } from '../context/AuthContext';
+import { API_BASE_URL } from '../config';
 
 const TestArea = () => {
   const [answers, setAnswers] = useState({});
@@ -32,7 +33,7 @@ const TestArea = () => {
   useEffect(() => {
     const fetchQuestionnaire = async () => {
       try {
-        const response = await fetch('http://localhost:8000/api/questionnaire');
+        const response = await fetch(`${API_BASE_URL}/api/questionnaire`);
         if (response.ok) {
           const data = await response.json();
           setQuestionnaire(data);
@@ -106,7 +107,7 @@ const TestArea = () => {
     }
     
     try {
-      const response = await fetch('http://localhost:8000/api/score/calculate', {
+      const response = await fetch(`${API_BASE_URL}/api/score/calculate`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -131,7 +132,7 @@ const TestArea = () => {
       };
       
       try {
-        await fetch('http://localhost:8000/api/history', {
+        await fetch(`${API_BASE_URL}/api/history`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { API_BASE_URL } from '../config';
 import { Plus, Trash2, Save, Loader2, Edit3, Settings } from 'lucide-react';
 
 const AdminQuestionnaire = ({ onError, onSuccess }) => {
@@ -14,7 +15,7 @@ const AdminQuestionnaire = ({ onError, onSuccess }) => {
 
   const fetchQuestionnaire = async () => {
     try {
-      const response = await fetch('http://localhost:8000/api/questionnaire');
+      const response = await fetch(`${API_BASE_URL}/api/questionnaire`);
       if (response.ok) {
         const data = await response.json();
         setQuestionnaire(data);
@@ -38,7 +39,7 @@ const AdminQuestionnaire = ({ onError, onSuccess }) => {
 
     setIsSaving(true);
     try {
-      const response = await fetch('http://localhost:8000/api/questionnaire', {
+      const response = await fetch(`${API_BASE_URL}/api/questionnaire`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

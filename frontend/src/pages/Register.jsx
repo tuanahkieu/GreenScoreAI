@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { API_BASE_URL } from '../config';
 import { UserPlus, ArrowLeft } from 'lucide-react';
 import Modal from '../components/Modal';
 
@@ -30,7 +31,7 @@ const Register = () => {
     setIsLoading(true);
     
     try {
-      const response = await fetch('http://localhost:8000/api/auth/register', {
+      const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

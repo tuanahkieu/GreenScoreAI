@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import { Trash2, ShieldAlert, Users, AlertCircle, Eye, ArrowLeft } from 'lucide-react';
 import Modal from '../components/Modal';
 import AdminQuestionnaire from '../components/AdminQuestionnaire';
+import { API_BASE_URL } from '../config';
 
 const Admin = () => {
   const { user, token } = useAuth();
@@ -27,7 +28,7 @@ const Admin = () => {
   const fetchUsers = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch('http://localhost:8000/api/admin/users', {
+      const response = await fetch(`${API_BASE_URL}/api/admin/users`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -55,7 +56,7 @@ const Admin = () => {
     setSelectedUser({ id: userId, username });
     setIsHistoryLoading(true);
     try {
-      const response = await fetch(`http://localhost:8000/api/admin/users/${userId}/history`, {
+      const response = await fetch(`${API_BASE_URL}/api/admin/users/${userId}/history`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -109,7 +110,7 @@ const Admin = () => {
       cancelText: "Hủy",
       onConfirm: async () => {
         try {
-          const response = await fetch(`http://localhost:8000/api/admin/users/${userId}`, {
+          const response = await fetch(`${API_BASE_URL}/api/admin/users/${userId}`, {
             method: 'DELETE',
             headers: {
               'Authorization': `Bearer ${token}`
