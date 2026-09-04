@@ -63,6 +63,19 @@ const Admin = () => {
       });
       if (response.ok) {
         const data = await response.json();
+        // Sắp xếp theo thời gian thực tế (mới nhất lên đầu)
+        data.sort((a, b) => {
+          // date format: "HH:MM:SS DD/MM/YYYY"
+          const parseDate = (dateStr) => {
+            if (!dateStr) return 0;
+            const [timePart, datePart] = dateStr.split(' ');
+            if (!datePart) return 0;
+            const [day, month, year] = datePart.split('/');
+            const [h, m, s] = timePart.split(':');
+            return new Date(year, month - 1, day, h, m, s).getTime();
+          };
+          return parseDate(b.date) - parseDate(a.date);
+        });
         setUserHistory(data);
       } else {
         setModalConfig({
