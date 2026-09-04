@@ -63,15 +63,23 @@ const Admin = () => {
       });
       if (response.ok) {
         const data = await response.json();
-        // Sắp xếp theo thời gian thực tế (mới nhất lên đầu)
+        // Sắp xếp theo kỳ đánh giá (mới nhất lên đầu), nếu trùng thì theo thời gian nộp
         data.sort((a, b) => {
+          const parseMonth = (mStr) => {
+            if (!mStr) return 0;
+            const [m, y] = mStr.split('/');
+            return new Date(y, m - 1).getTime();
+          };
+          const monthDiff = parseMonth(b.month) - parseMonth(a.month);
+          if (monthDiff !== 0) return monthDiff;
+
           // date format: "HH:MM:SS DD/MM/YYYY"
           const parseDate = (dateStr) => {
             if (!dateStr) return 0;
-            const [timePart, datePart] = dateStr.split(' ');
-            if (!datePart) return 0;
-            const [day, month, year] = datePart.split('/');
-            const [h, m, s] = timePart.split(':');
+            const parts = dateStr.split(' ');
+            if (parts.length < 2) return 0;
+            const [day, month, year] = parts[1].split('/');
+            const [h, m, s] = parts[0].split(':');
             return new Date(year, month - 1, day, h, m, s).getTime();
           };
           return parseDate(b.date) - parseDate(a.date);
