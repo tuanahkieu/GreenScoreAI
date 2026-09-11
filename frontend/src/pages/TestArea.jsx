@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import Modal from '../components/Modal';
 import { useAuth } from '../context/AuthContext';
 import { API_BASE_URL } from '../config';
+import DataVerification from '../components/DataVerification';
 
 const TestArea = () => {
   const [answers, setAnswers] = useState({});
@@ -13,6 +14,7 @@ const TestArea = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [direction, setDirection] = useState('forward');
   const [modalConfig, setModalConfig] = useState({ isOpen: false });
+  const [isVerificationStep, setIsVerificationStep] = useState(false);
   
   const [selectedMonth, setSelectedMonth] = useState((new Date().getMonth() + 1).toString().padStart(2, '0'));
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear().toString());
@@ -79,7 +81,9 @@ const TestArea = () => {
       const mainContent = document.querySelector('.main-content');
       if (mainContent) mainContent.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
-      handleCalculate();
+      setIsVerificationStep(true);
+      const mainContent = document.querySelector('.main-content');
+      if (mainContent) mainContent.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
@@ -92,7 +96,7 @@ const TestArea = () => {
     }
   };
 
-  const handleCalculate = async () => {
+  const handleCalculate = async (verificationStatus = null) => {
     const totalQuestionsCount = questionnaire.groups.reduce((acc, group) => acc + group.questions.length, 0);
     if (Object.keys(answers).length < totalQuestionsCount) {
       setModalConfig({
@@ -112,7 +116,10 @@ const TestArea = () => {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ answers })
+        body: JSON.stringify({ 
+          answers, 
+          verification_status: verificationStatus 
+        })
       });
       
       if (!response.ok) {
@@ -166,6 +173,7 @@ const TestArea = () => {
     setResult(null);
     setCurrentStep(0);
     setIsMonthSelected(false);
+    setIsVerificationStep(false);
     const mainContent = document.querySelector('.main-content');
     if (mainContent) mainContent.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -249,7 +257,7 @@ const TestArea = () => {
               <span>{answeredCount} / {totalQuestions} câu</span>
             </div>
             <div className="progress-bg">
-              <div className="progress-bar" style={{ width: `${progressPercent}%` }}></div>
+              <div className="progress-bar" style={{ width: `${isVerificationStep ? 100 : progressPercent}%` }}></div>
             </div>
             
             <div style={{ display: 'flex', gap: '0.5rem', marginTop: '1rem' }}>
@@ -260,7 +268,7 @@ const TestArea = () => {
                     flex: 1, 
                     height: '4px', 
                     borderRadius: '2px',
-                    backgroundColor: idx <= currentStep ? 'var(--color-primary)' : 'rgba(255,255,255,0.1)',
+                    backgroundColor: (idx <= currentStep || isVerificationStep) ? 'var(--color-primary)' : 'rgba(255,255,255,0.1)',
                     transition: 'background-color 0.3s ease'
                   }}
                 />
@@ -268,6 +276,9 @@ const TestArea = () => {
             </div>
           </div>
 
+          {isVerificationStep ? (
+            <DataVerification onComplete={handleCalculate} />
+          ) : (
           <form onSubmit={(e) => e.preventDefault()}>
             <div 
               key={currentStep}
@@ -314,13 +325,14 @@ const TestArea = () => {
                 style={{ padding: '0.75rem 2rem' }}
               >
                 {currentStep === questionnaire.groups.length - 1 ? (
-                  <>Hoàn thành <Calculator style={{ marginLeft: '0.5rem' }} size={18} /></>
+                  <>Tiếp tục (Xác minh) <ArrowRight style={{ marginLeft: '0.5rem' }} size={18} /></>
                 ) : (
                   <>Tiếp theo <ArrowRight style={{ marginLeft: '0.5rem' }} size={18} /></>
                 )}
               </button>
             </div>
           </form>
+          )}
         </div>
       )}
       

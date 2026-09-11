@@ -52,6 +52,12 @@ const Home = () => {
 
       <div className="container animate-fade-in" style={{ maxWidth: '800px', textAlign: 'center', paddingTop: '4rem' }}>
         <h1 className="app-title" style={{ fontSize: '3.5rem', marginBottom: '1.5rem' }}>GreenScore AI</h1>
+        
+        {/* Positioning statement added here */}
+        <p style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--color-primary)', marginBottom: '1.5rem' }}>
+          Đánh giá sức khỏe tài chính – Hiểu dữ liệu – Cải thiện hành động.
+        </p>
+
         <p className="app-subtitle" style={{ fontSize: '1.25rem', marginBottom: '3rem', maxWidth: '600px', margin: '0 auto 3rem' }}>
           Hệ thống đánh giá sức khỏe tài chính thông minh dựa trên phân tích dòng tiền, thói quen chi tiêu và kỷ luật thanh toán của bạn.
         </p>
@@ -78,17 +84,22 @@ const Home = () => {
             <ShieldCheck size={24} />
           </div>
           <h3 style={{ marginBottom: '0.5rem', color: 'var(--color-text-main)' }}>Bảo mật Tối đa</h3>
-          <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem' }}>Mô hình được xử lý an toàn qua hệ thống Backend độc lập.</p>
+          <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem' }}>Dữ liệu do bạn chủ động cung cấp và được xử lý an toàn.</p>
         </div>
       </div>
 
-      <button 
-        className="btn btn-primary" 
-        style={{ fontSize: '1.25rem', padding: '1rem 2.5rem', borderRadius: '30px' }}
-        onClick={handleStartTest}
-      >
-        Bắt đầu làm bài kiểm tra <ArrowRight style={{ marginLeft: '0.75rem' }} size={24} />
-      </button>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem' }}>
+        <button 
+          className="btn btn-primary" 
+          style={{ fontSize: '1.25rem', padding: '1rem 2.5rem', borderRadius: '30px' }}
+          onClick={handleStartTest}
+        >
+          Bắt đầu đánh giá (Start Financial Check) <ArrowRight style={{ marginLeft: '0.75rem' }} size={24} />
+        </button>
+        <p style={{ color: 'var(--color-text-muted)', fontSize: '0.85rem', maxWidth: '500px', marginTop: '0.5rem' }}>
+          * Đây là phiên bản MVP của hệ thống thu thập dữ liệu để đánh giá sức khỏe tài chính. Thông tin của bạn được bảo mật và hoàn toàn dựa trên khai báo tự nguyện.
+        </p>
+      </div>
 
       <Modal {...modalConfig} />
       </div>

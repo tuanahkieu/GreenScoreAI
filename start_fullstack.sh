@@ -2,7 +2,7 @@
 # Start backend
 echo "Starting FastAPI backend..."
 source venv/bin/activate
-uvicorn main:app --reload --port 8000 &
+./venv/bin/python3 -m uvicorn main:app --reload --port 8000 &
 BACKEND_PID=$!
 
 # Start frontend
