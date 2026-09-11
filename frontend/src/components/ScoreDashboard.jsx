@@ -123,9 +123,9 @@ const ScoreDashboard = ({ result, onReset }) => {
           {/* Radar Chart */}
           <div style={{ flex: '1', minWidth: '250px', height: '280px' }}>
             <ResponsiveContainer width="100%" height="100%">
-              <RadarChart cx="50%" cy="50%" outerRadius="70%" data={radarData}>
+              <RadarChart cx="50%" cy="50%" outerRadius="60%" data={radarData}>
                 <PolarGrid stroke="rgba(255,255,255,0.2)" />
-                <PolarAngleAxis dataKey="subject" tick={{ fill: 'var(--color-text-muted)', fontSize: 12 }} />
+                <PolarAngleAxis dataKey="subject" tick={{ fill: 'var(--color-text-muted)', fontSize: 11 }} />
                 <PolarRadiusAxis angle={30} domain={[0, 1000]} tick={false} axisLine={false} />
                 <Radar name="Điểm số" dataKey="A" stroke={color} fill={color} fillOpacity={0.4} />
               </RadarChart>
@@ -311,9 +311,17 @@ const ScoreDashboard = ({ result, onReset }) => {
         )}
 
         {/* 5.12. Privacy & Disclaimer */}
-        <div style={{ padding: '1.5rem', borderTop: '1px solid rgba(255,255,255,0.1)', textAlign: 'left', fontSize: '0.8rem', color: 'var(--color-text-muted)', lineHeight: '1.5' }}>
-          <p style={{ marginBottom: '0.5rem' }}><strong>Bảo mật & Quyền riêng tư:</strong> Dữ liệu của bạn được mã hóa và chỉ được sử dụng cho mục đích phân tích GreenScore. Chúng tôi không chia sẻ thông tin tài chính cá nhân của bạn với bất kỳ bên thứ ba nào mà không có sự đồng ý.</p>
-          <p><strong>Miễn trừ trách nhiệm:</strong> Kết quả GreenScore và các phân tích tài chính chỉ mang tính chất tham khảo dựa trên dữ liệu khai báo. Đây không phải là tư vấn tài chính chuyên nghiệp hoặc cam kết phê duyệt tín dụng chính thức.</p>
+        <div style={{ padding: '1.5rem', borderTop: '1px solid rgba(255,255,255,0.1)', textAlign: 'left', fontSize: '0.85rem', color: 'var(--color-text-muted)', lineHeight: '1.5' }}>
+          <h4 style={{ fontSize: '1.1rem', color: 'var(--color-text-main)', marginBottom: '1rem' }}>Bảo mật & Quyền riêng tư</h4>
+          <ul style={{ paddingLeft: '1.25rem', marginBottom: '1rem' }}>
+            <li>Người dùng chủ động đồng ý cung cấp dữ liệu.</li>
+            <li>Dữ liệu được sử dụng cho mục đích đánh giá.</li>
+            <li>Không thu thập dữ liệu không cần thiết.</li>
+            <li>Có giải thích về cách sử dụng dữ liệu.</li>
+          </ul>
+          <div style={{ backgroundColor: 'rgba(255,255,255,0.05)', padding: '1rem', borderRadius: '8px' }}>
+            <p style={{ margin: 0 }}><strong>Miễn trừ trách nhiệm:</strong> GreenScore AI là công cụ đánh giá sức khỏe tài chính thử nghiệm, không phải điểm tín dụng chính thức và không thay thế hoạt động thẩm định hoặc quyết định cấp tín dụng của các tổ chức tài chính.</p>
+          </div>
         </div>
       </div>
 
